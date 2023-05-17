@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Резюме</title>
+    <style>
+      /* Несколько правил стилей для улучшения внешнего вида страницы */
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+      }
+
+      img {
+        display: block;
+        margin: 20px auto;
+        max-width: 40%;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin: 20px 0;
+      }
+
+      button {
+        padding: 10px 16px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Морозов Дмитрий</h1>
+    </header>
+
+    <main>
+      <img src="photo.jpg" alt="Фото">
+      <p>Здесь ваше резюме.</p>
+      <label for="surname-input">Фамилия:</label>
+      <input type="text" id="surname-input" placeholder="Введите вашу фамилию">
+      <button id="change-surname-btn">Изменить фамилию</button>
+      <button id="change-bg-color-btn">Сменить цвет фона</button>
+    </main>
+
+    <script>
+      // Обработчик клика на кнопке "Изменить фамилию"
+      document.getElementById('change-surname-btn').addEventListener('click', function() {
+        var input = document.getElementById('surname-input');
+        var surname = input.value;
+        var header = document.querySelector('header h1');
+        header.innerText = 'Дмитрий ' + surname;
+        input.value = '';
+      });
+
+      // Обработчик клика на кнопке "Сменить цвет фона"
+      document.getElementById('change-bg-color-btn').addEventListener('click', function() {
+        var body = document.querySelector('body');
+        var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        body.style.backgroundColor = color;
+      });
+    </script>
+  </body>
+  
+</html>
