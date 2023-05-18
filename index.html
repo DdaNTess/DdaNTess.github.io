@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Резюме</title>
+    <title>Резюме/Анкета</title>
     <style>
       /* Несколько правил стилей для улучшения внешнего вида страницы */
 
       body {
-        font-family: Arial, sans-serif;
+        font-family: 'Times New Roman', Times, serif;
         margin: 0;
         padding: 0;
       }
@@ -21,12 +21,6 @@
 
       h1 {
         margin: 0;
-      }
-
-      img {
-        display: block;
-        margin: 20px auto;
-        max-width: 40%;
       }
 
       input[type="text"] {
@@ -50,15 +44,51 @@
       button:hover {
         background-color: #666;
       }
+
+      .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5%;
+      }
+
+      fieldset {
+        height: 50px;
+        margin-left: 1%;
+      }
+
+       /* Скрываем элемент "Меня возьмут" по умолчанию */
+       #acceptance {
+        display: none;
+      }
     </style>
   </head>
+  
   <body>
     <header>
       <h1>Морозов Дмитрий</h1>
     </header>
 
     <main>
-      <img src="photo.jpg" alt="Фото">
+
+      <div class="header">
+        <img src="photo.jpg" alt="Фото">
+        <fieldset>
+          <legend>Добрый ... </legend>
+      
+          <div>
+            <input type="checkbox" id="firstc" name="firstc">
+            <label for="scales">День</label>
+          </div>
+      
+          <div>
+            <input type="checkbox" id="secondc" name="secondc">
+            <label for="horns">Вечер</label>
+          </div>
+        </fieldset>
+      </div>
+      
       <p>Здесь ваше резюме.</p>
       <label for="surname-input">Фамилия:</label>
       <input type="text" id="surname-input" placeholder="Введите вашу фамилию">
@@ -66,24 +96,105 @@
       <button id="change-bg-color-btn">Сменить цвет фона</button>
     </main>
 
-    <script>
-      // Обработчик клика на кнопке "Изменить фамилию"
-      document.getElementById('change-surname-btn').addEventListener('click', function() {
-        var input = document.getElementById('surname-input');
-        var surname = input.value;
-        var header = document.querySelector('header h1');
-        header.innerText = 'Дмитрий ' + surname;
-        input.value = '';
-      });
-
-      // Обработчик клика на кнопке "Сменить цвет фона"
-      document.getElementById('change-bg-color-btn').addEventListener('click', function() {
-        var body = document.querySelector('body');
-        var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
-        var color = colors[Math.floor(Math.random() * colors.length)];
-        body.style.backgroundColor = color;
-      });
-    </script>
+    <form>
+      <label for="name">Имя:</label>
+  <input type="text" id="name" name="name" required><br><br>
+  <label for="age">Возраст:</label>
+  <input type="number" id="age" name="age" min="0" required><br><br>
+  <label for="gender">Пол:</label>
+  <select id="gender" name="gender" required>
+   <option value="">Выберите пол</option>
+   <option value="F">Женский</option>
+   <option value="M">Мужской</option>
+  </select><br><br>
+  <label for="hobby">Хобби:</label>
+  <textarea id="hobby" name="hobby"></textarea><br><br>
+  <label for="married">Женат/Замужем:</label>
+  <input type="checkbox" id="married" name="married"><br><br>
+  <input type="submit" value="Отправить" onclick="return validate()">
+  <input type="button" value="Меня возьмут" onclick="return accept()">
+    </form>
   </body>
-  
+
+  <script>
+    // Обработчик клика на кнопке "Изменить фамилию"
+    document.getElementById('change-surname-btn').addEventListener('click', function() {
+      var input = document.getElementById('surname-input');
+      var surname = input.value;
+      var header = document.querySelector('header h1');
+      header.innerText = 'Дмитрий ' + surname;
+      input.value = '';
+    });
+
+    // Обработчик клика на кнопке "Сменить цвет фона"
+    document.getElementById('change-bg-color-btn').addEventListener('click', function() {
+      var body = document.querySelector('body');
+      var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
+      var color = colors[Math.floor(Math.random() * colors.length)];
+      body.style.backgroundColor = color;
+    });
+
+    const form = document.querySelector("form");
+      const nameInput = document.querySelector("#name");
+      const ageInput = document.querySelector("#age");
+      const genderInput = document.querySelectorAll('[name="gender"]');
+      const skillsTextarea = document.querySelector("#skills");
+      const acceptanceCheckbox = document.querySelector("#acceptance");
+      const sendButton = document.querySelector("#send");
+      const fillInForm = document.querySelector("#fill-in-form");
+
+      function validate() {
+   let name = document.getElementById('name').value;
+   let age = parseInt(document.getElementById('age').value);
+   let gender = document.getElementById('gender').value;
+   
+   if (!name.match(/^[a-zA-zа-яА-ЯёЁ]+$/)) {
+    alert('Имя должно содержать только буквы');
+    return false;
+   }
+
+   if (isNaN(age) || age < 0) {
+    alert('Возраст должен быть неотрицательным целым числом');
+    return false;
+   }
+
+   if (gender != 'F' && gender != 'M') {
+    alert('Выберите пол');
+    return false;
+   }
+    return true;
+  }
+
+  function accept() {
+   let form = document.querySelector('form');
+   if (validate()) {
+    let inputs = form.getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; i++) {
+     if (inputs[i].type === 'checkbox') {
+      inputs[i].disabled = true;
+     }
+    }
+    let status = document.getElementById('status');
+    status.value = 'Принят';
+    form.removeChild(document.querySelector('input[type=button]'));
+   } else {
+    alert('Заполните анкету корректно');
+   }
+  }
+
+  window.onload = function() {
+   let acceptBtn = document.querySelector('input[type=button]');
+   let form = document.querySelector('form');
+   acceptBtn.disabled = true;
+   form.addEventListener('input', function() {
+    if (validate()) 
+    {
+     acceptBtn.disabled = false;
+    } else {
+     acceptBtn.disabled = true;
+    }
+   });
+  }
+  </script>
+
 </html>
